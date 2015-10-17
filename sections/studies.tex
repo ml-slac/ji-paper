@@ -32,7 +32,8 @@ Though important on it's own, this figure of merit does little to help drive und
 % subsubsection understanding_what_is_learned (end)
 In Figure~\ref{fig:convkernels}, we first examine the $11\times11$ convolutional filters in the first layer and look for structure. In
 
-In order to understand what we learn, we first take a look \emph{inside} the deep network. 
+In order to understand what we learn, we first take a look \emph{inside} the deep network, and visualize features learned during training.
+
 \begin{figure}[bt]
   \begin{center}
       \subfloat[$(11\times11)$ convolutional kernels from first layer \label{subfig:filters}]{
@@ -47,16 +48,26 @@ In order to understand what we learn, we first take a look \emph{inside} the dee
     \end{center}
 \end{figure}
 
+In Figure~\ref{subfig:filters}, we show the (11$\times$11) convolutional filters learned by our network. To mimic the operation in the first layer of the network, we can convolve each filter with an average jet image to get an understanding of what features the network learns at the first layer. 
 
+More formally, let $J_s=\frac{1}{n}\sum_{i:i\text{ is signal}} J^{(i)}$ and $J_b=\frac{1}{n}\sum_{i:i\text{ is background}}J^{(i)}$ represent the average signal and background jet over a sample, where $J^{(i)}$ is the $i$th jet image. In addition, we can select a filter $w_i\in\mathbb{R}^{11\times11}$ from the first convolutional layer.
 
-Blah... linear correlations with pixels
+We then examine the differences in the post convolution layer. We take 
 
+\begin{equation}
+  J_s \ast w_i - J_b \ast w_i, \forall i,
+\end{equation}
 
+where $\ast$ is the standard convolution operator. We arrange these new ``convolved images'' in a grid, and show in red regions where signal has a stronger representation, and in blue where background has a stronger representation. In Figure~\ref{subfig:convolvedfilters}, we show the convolved differences described above, where each $(i, j)$ image is the representation under the $(i, j)$ convolutional filter. We note the existence of interesting patterns around the regions where the leading and subleading subjets are expected to be. We also draw attention to the fact that there is a large diversity in the the convolved representations, indicating that the DNN is able to learn and pick up on multiple features that are descriptive.
 
 
 
 \subsubsection{Physics in Deep Representations} % (fold)
 \label{ssub:physics_in_deep_representations}
+
+To get a tangible and more intuitive understanding of what jet structures a DNN learns, we construct the following. Let $y$ be the DNN output, and consider every pixel $p_ij$ in transformed $(\eta, \phi)$ space. We the construct an image where each pixel $(i, j)$ is $\rho_{p_{ij}, y}$, the Pearson Correlation Coefficient of that pixels energy deposition with the final DNN output. In Figure~\ref{fig:corr}, we construct this image, and can see interesting structure in the subleading subjet region as well as asymmetric scattering patterns around the leading subjet.
+
+
 
 
 \begin{figure}[!htbp]
@@ -100,8 +111,15 @@ Blah... linear correlations with pixels
 \subsection{Flat Hypercube Studies} % (fold)
 \label{sub:flat_hypercube_studies}
 
+Since we outperform physics-derived variables, we would like to know where these performance improvements come from. Our first approach to this is \emph{hypercube reweighting}. In particular, we derive weights such that the joint distributions of mass, $n$-subjettiness, and $p_T$ are non-discriminative. Specifically, we require
 
-Here, we see the ROC blah...
+\begin{equation}
+  f(m, \tau_{21}, p_T| W'\rightarrow WZ) \approx f(m, \tau_{21}, p_T| QCD).
+\end{equation}
+
+We then take our globally trained neural network (Figure~\ref{fig:combinedROC}) and apply the discriminant under this ``flattening'' transformation. We also use the training weights inside this window and train an additional CNN. In particular, we look for increases in performance, which would indicate information learned beyond physics variables since we removed the discrimination power using hypercube weighting.
+
+In Figure~\ref{fig:rocCube} we show that the globally trained NN retains discrimination power even once we ``subtract'' the discrimination power of primitives from physics.
 
 \begin{figure}[htbp]
   \centering
@@ -117,6 +135,7 @@ Here, we see the ROC blah...
 \subsection{Small Window Studies} % (fold)
 \label{sub:small_window_studies}
 
+Though we see performance improvements using a deep network under an induced flat hypercube, we want to be sure that these performance improvements are valid and carry over to a less contrived distribution. In particular, we consider a mass window of [79, 81] GeV, a $p_T$ window of [250, 255] GeV, and we require $\tau_21$ to be in [0.19, 0.21]. In Figure~\ref{fig:meanImagesWindow}, we see the differences between signal and background for such a window.
 
 \begin{figure}[bt]
   \begin{center}
@@ -125,18 +144,20 @@ Here, we see the ROC blah...
         \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-sig.pdf}
       }
       \subfloat[Average QCD image \label{subfig:bkg_window}]{
-        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-sig.pdf}
+        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-bkg.pdf}
       } \\
       \subfloat[Average image difference \label{subfig:windowdiff}]{
         \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-diff-clipped.pdf}
       }
-      \caption{$W'\rightarrow WZ$ (left) and QCD (right) average jet-images, and Signal - Background image difference (bottom)
-      \label{fig:meanImagesWindow} }
+      \caption{
+        $W'\rightarrow WZ$ (left) and QCD (right) average jet-images, and Signal - Background image difference (bottom)
+        \label{fig:meanImagesWindow} 
+      }
     \end{center}
 \end{figure}  
 
 
-Performance inside the window, use a Fisher Discriminant...
+In this window, we compare the DNN trained outside the window to a Fisher Linear Discriminant trained inside the window. In Figure~\ref{fig:rocWindow} we see this performance comparison, and note that our DNN outperforms the FLD.
 
 \begin{figure}[htbp]
   \centering
@@ -151,22 +172,23 @@ Performance inside the window, use a Fisher Discriminant...
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.65\textwidth]{figures/fld-benwindow.pdf}
-  \caption{caption}
+  \caption{Cell coefficients from Fisher Linear Discriminant in window: $m_{\mathsf{jet}}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$}
   \label{fig:fldWindow}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.65\textwidth]{figures/pixel-activations-corr-benwindow.pdf}
-  \caption{caption}
+  \caption{Pearson Correlation Coefficient for pixels vs. DNN output, $m_{\mathsf{jet}}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$}
   \label{fig:corrWindow}
 \end{figure}
 
+In Figure~\ref{fig:convkernelsWindow}, we show the same feature representations as in Figure~\ref{subfig:convolvedfilters}, which show the convolved differences in images over signal and background in the window. 
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{figures/conv-diffs-ben-window.pdf}
-  \caption{caption}
+  \caption{Convolved Feature Differences in jet images, $\mathsf{jet}}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$}
   \label{fig:convkernelsWindow}
 \end{figure}
 % subsubsection understanding_what_we_learn (end)
