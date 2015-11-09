@@ -65,6 +65,47 @@ In order to understand what we learn, we first take a look \emph{inside} the dee
     \end{center}
 \end{figure}
 
+\begin{figure}[bt]
+  \begin{center}
+      \subfloat[Sculpted QCD $\Delta R$ distribution\label{fig:sculpteddR}]
+      {
+        \includegraphics[width=0.5\textwidth]{figures/dR-dist-by-CNN.pdf}
+      }
+      \subfloat[Sculpted QCD $\tau_{21}$ distribution\label{fig:sculptednsj}]
+      {
+        \includegraphics[width=0.5\textwidth]{figures/tau-dist-by-CNN.pdf}
+      }
+      \\
+      \subfloat[Sculpted QCD mass distribution\label{fig:sculptedmass}]
+      {
+        \includegraphics[width=0.5\textwidth]{figures/mass-dist-by-CNN.pdf}
+      }
+
+      \caption{Sculpted QCD distributions}
+      \label{fig:qcdsculpt}
+
+    \end{center}
+\end{figure}
+
+\begin{figure}[bt]
+  \begin{center}
+  
+      \subfloat[Average $W'\rightarrow WZ$ image \label{subfig:sig_window}]{
+        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-sig.pdf}
+      }
+      \subfloat[Average QCD image \label{subfig:bkg_window}]{
+        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-bkg.pdf}
+      } \\
+      \subfloat[Average image difference \label{subfig:windowdiff}]{
+        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-diff-clipped.pdf}
+      }
+      \caption{
+        $W'\rightarrow WZ$ (left) and QCD (right) average jet-images, and Signal - Background image difference (bottom)
+        \label{fig:meanImagesWindow} 
+      }
+    \end{center}
+\end{figure}  
+
 In Figure~\ref{subfig:filters}, we show the (11$\times$11) convolutional filters learned by our network. To mimic the operation in the first layer of the network, we can convolve each filter with an average jet image to get an understanding of what features the network learns at the first layer. 
 
 More formally, let $J_s=\frac{1}{n}\sum_{i:i\text{ is signal}} J^{(i)}$ and $J_b=\frac{1}{n}\sum_{i:i\text{ is background}}J^{(i)}$ represent the average signal and background jet over a sample, where $J^{(i)}$ is the $i$th jet image. In addition, we can select a filter $w_i\in\mathbb{R}^{11\times11}$ from the first convolutional layer.
@@ -95,27 +136,7 @@ To get a tangible and more intuitive understanding of what jet structures a DNN 
 \end{figure}
 
 
-\begin{figure}[bt]
-  \begin{center}
-      \subfloat[Sculpted QCD $\Delta R$ distribution\label{fig:sculpteddR}]
-      {
-        \includegraphics[width=0.5\textwidth]{figures/dR-dist-by-CNN.pdf}
-      }
-      \subfloat[Sculpted QCD $\tau_{21}$ distribution\label{fig:sculptednsj}]
-      {
-        \includegraphics[width=0.5\textwidth]{figures/tau-dist-by-CNN.pdf}
-      }
-      \\
-      \subfloat[Sculpted QCD mass distribution\label{fig:sculptedmass}]
-      {
-        \includegraphics[width=0.5\textwidth]{figures/mass-dist-by-CNN.pdf}
-      }
 
-      \caption{Sculpted QCD distributions}
-      \label{fig:qcdsculpt}
-
-    \end{center}
-\end{figure}
 
 
 
@@ -154,24 +175,7 @@ In Figure~\ref{fig:rocCube} we show that the globally trained NN retains discrim
 
 Though we see performance improvements using a deep network under an induced flat hypercube, we want to be sure that these performance improvements are valid and carry over to a less contrived distribution. In particular, we consider a mass window of [79, 81] GeV, a $p_T$ window of [250, 255] GeV, and we require $\tau_21$ to be in [0.19, 0.21]. In Figure~\ref{fig:meanImagesWindow}, we see the differences between signal and background for such a window.
 
-\begin{figure}[bt]
-  \begin{center}
-  
-      \subfloat[Average $W'\rightarrow WZ$ image \label{subfig:sig_window}]{
-        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-sig.pdf}
-      }
-      \subfloat[Average QCD image \label{subfig:bkg_window}]{
-        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-bkg.pdf}
-      } \\
-      \subfloat[Average image difference \label{subfig:windowdiff}]{
-        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-diff-clipped.pdf}
-      }
-      \caption{
-        $W'\rightarrow WZ$ (left) and QCD (right) average jet-images, and Signal - Background image difference (bottom)
-        \label{fig:meanImagesWindow} 
-      }
-    \end{center}
-\end{figure}  
+
 
 
 In this window, we compare the DNN trained outside the window to a Fisher Linear Discriminant trained inside the window. In Figure~\ref{fig:rocWindow} we see this performance comparison, and note that our DNN outperforms the FLD.
@@ -200,14 +204,16 @@ In this window, we compare the DNN trained outside the window to a Fisher Linear
   \label{fig:corrWindow}
 \end{figure}
 
-In Figure~\ref{fig:convkernelsWindow}, we show the same feature representations as in Figure~\ref{subfig:convolvedfilters}, which show the convolved differences in images over signal and background in the window. 
+%In Figure~\ref{fig:convkernelsWindow}, we show the same feature representations as in Figure~\ref{subfig:convolvedfilters}, which show the convolved differences in images over signal and background in the window. 
+%
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics[width=0.95\textwidth]{figures/conv-diffs-ben-window.pdf}
+%  \caption{Convolved Feature Differences in jet images, $m_\text{jet}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$}
+%  \label{fig:convkernelsWindow}
+%\end{figure}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.95\textwidth]{figures/conv-diffs-ben-window.pdf}
-  \caption{Convolved Feature Differences in jet images, $m_\text{jet}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$}
-  \label{fig:convkernelsWindow}
-\end{figure}
+
 % subsubsection understanding_what_we_learn (end)
 
 % subsection small_window_studies (end)
