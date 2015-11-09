@@ -5,6 +5,8 @@ In order to study jet images in a realistic scenario, we use Monte Carlo (MC) si
 
 To simulate highly boosted $W$ bosons, a hypothetical $W'$ boson is generated and forced to decay to a hadronically decaying $W$ boson ($W\rightarrow qq'$) and a $Z$ boson which decays invisibly ($Z\rightarrow \nu\bar{\nu}$).  The mass of the $W'$ boson determines the Lorentz boost of the $W$ boson in the lab frame since the $W'$ is produced nearly at rest and the $W$ boson momentum is approximately $m_{W'}/2$.  The invisible decay of the $Z$ boson ensures that the jet in the event with the highest transverse momentum is the $W$ boson jet.  Multijet production of quarks and gluons is simulated as a background.  Both the $W'$ signal and the multijet background are generated using \textsc{Pythia} 8.170~\cite{Pythia8,Pythia} at $\sqrt{s}=14$ TeV.  The angular separation of the $W$ boson decay products in the plane transverse to the beam direction scales as $2m_{W}/p_{T,W}$, where $m_W\approx 80$~GeV and $p_{T,W}$ is the component of the $W$ boson momentum in this plane.  The tagging strategy and performance depend strongly on $p_{T,W}$, so we focus on a particular range: $250$~GeV~$<p_{T,W}<300$~GeV.  This corresponds to an angular spread of about $1$ radian.  The decay products of the $W$ bosons as well as the background are clustered into jets using the anti-$k_t$ algorithm~\cite{antiktpaper} via \textsc{FastJet}~\cite{fastjet} 3.0.3.  To mitigate the contribution from the underlying event, jets are are trimmed~\cite{trimming} by re-clustering the constituents into $R=0.3$ $k_t$ subjets and dropping those which have $p_T^\text{subjet}<0.05\times p_T^\text{jet}$. 
 
+Three key jet features for distinguishing between $W$ jets and QCD jets are the {\it jet mass}, {\it n-subjettiness}~\cite{nsub} and the distance in $(\eta,\phi)$ space between subjets of the trimmed jet ($\Delta R$).  The distributions of these three discriminating variables are shown in Fig.~\ref{fig:datastats}.   The jet mass is defined as $m_\text{jet}^2=\sum_{i,j} p_i p_j$, with jet constituent four-vectors $p_i$, and is a proxy for the boson mass in the case of $W$ boson events and scales with the transverse momentum and the size of the jet in QCD background events.  $N$-subjettiness, in the form of $\tau_{21}$, is a measure of the likelihood that the jet has two hard prongs instead of one hard prong.  In this application, the winner-takes-all axis~\cite{Larkoski:2014uqa} is used to define the axis in the $\tau_{21}$ calculation.  One other useful feature is the jet transverse momentum.  However, since many of the other features have a strong dependance on the jet transverse momentum, we re-weight the signal and background spectrum to have the same $p_T$ distributions.
+
 To model the discretization and finite acceptance of a real detector, a calorimeter of towers with size $0.1\times 0.1$ in $(\eta,\phi)$ extends out to $\eta=5.0$.  The total energy of the simulated particles incident upon a particular cell are added as scalars and the four-vector $p_j$ of any particular tower $j$ is given by
 
 \begin{align}
@@ -15,13 +17,11 @@ p_j = \sum_{i\text{ incident on $j$}}E_i(\cos\phi_j/\cosh \eta_j,\sin\phi_j/\cos
 \noindent where $E_i$ is the energy of particle $i$ and the center of the tower $j$ is $(\eta_j,\phi_j)$.  Towers are treated as massless.
 
  A {\it jet image} is formed by taking the constituents of a jet and discretizing its energy into pixels in ($\eta,\phi$), with the intensity of each pixel given by the sum of the energy of all constituents of the jet inside that ($\eta,\phi$) pixel.  In our studies, we take the jet image pixelation to match the simulated calorimeter tower granularity.  In the next section, we will discuss the nuances of standardizing the coordinates of a jet image as a pre-processing step prior to applying machine learning.  
- 
-pT weighting
 
 \begin{figure}[bt]
   \begin{center}
         \includegraphics[width=0.45\textwidth]{figures/mass.pdf} \includegraphics[width=0.45\textwidth]{figures/tau21.pdf} \\\includegraphics[width=0.45\textwidth]{figures/dR.pdf}
-      \caption{ 
+      \caption{ The distributions of the jet mass (top left), $\tau_{21}$ (top right) and the $\Delta R$ between subjets (bottom) for signal (blue) and background (red) jets.
       \label{fig:datastats} }
     \end{center}
 \end{figure}
