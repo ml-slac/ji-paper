@@ -16,9 +16,21 @@ p_j = \sum_{i\text{ incident on $j$}}E_i(\cos\phi_j/\cosh \eta_j,\sin\phi_j/\cos
 
  A {\it jet image} is formed by taking the constituents of a jet and discretizing its energy into pixels in ($\eta,\phi$), with the intensity of each pixel given by the sum of the energy of all constituents of the jet inside that ($\eta,\phi$) pixel.  In our studies, we take the jet image pixelation to match the simulated calorimeter tower granularity.  In the next section, we will discuss the nuances of standardizing the coordinates of a jet image as a pre-processing step prior to applying machine learning.  
  
-Show some plots of pT, etc?
+pT weighting
+
+\begin{figure}[bt]
+  \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/mass.pdf} \includegraphics[width=0.45\textwidth]{figures/tau21.pdf} \\\includegraphics[width=0.45\textwidth]{figures/dR.pdf}
+      \caption{ 
+      \label{fig:datastats} }
+    \end{center}
+\end{figure}
+
+\newpage
+\clearpage
 
 \section{Pre-processing and the Symmetries of Space-time}
+\label{sec:preprocess}
 
 In order for the machine learning algorithms to most efficiency learn discriminating features between signal and background and not learn the symmetries of space-time, the jet images are pre-processed.  This procedure can greatly improve performance and reduce the required size of the sample used for testing.  Our pre-processing procedure happens in four steps: translation, rotation, re-pixelation, and inversion.  To begin, the jet images are translated so that the leading subjet is at $(\eta,phi)=(0,0)$.  Translations in $\phi$ are rotations around the $z$-axis and so the pixel intensity is unchanged by this operation.  On the other hand, translations in $\eta$ are {\it Lorentz boosts} along $z$, which do not preserve the pixel intensity.  Therefore, a proper translation in $\eta$ would modify the pixel intensity.  One simple modification of the jet image to circumvent this change is to replace the pixel intensity $E_i$ with $p_{T,i}=E_i/\cosh(\eta_i)$.  This new definition of intensity is invariant under translations in $\eta$ and is used exclusively for the rest of this paper.
 
@@ -42,10 +54,12 @@ m_I^2=\sum_{i<j} E_iE_j(1-\cos(\theta_{ij})),
 
 \noindent where $E_i=I_i/cosh(\eta_i)$ for pixel intensity $I_i$ and $\theta_{ij}$ is the angle between massless four-vectors with $\eta$ and $\phi$ at the $i$ and $j$ pixel centers.  The image mass is not invariant under all pre-processing steps, but does encode useful discrimination information.  As discussed earlier, with the proper choice of pixel intensity, translations preserve the image mass since it is a Lorentz invariant quantity.  However, the rotation pre-processing step does not preserve the image mass.  To see this, consider two four-vectors: $p^\mu=(1,0,0,1)$ and $q^\mu=(0,1,0,1)$.   The invariant mass of these vectors is $\sqrt{2}$.  The vector $p^\mu$ is at the center of the jet image coordinates and the vector $q^\mu$ is located at $\pi/2$ degrees.  If we rotate the image around the jet axis so that the vector $q^\mu$ is at $0$, akin to rotating the jet image so that the sub-leading subjet goes from $\pi/2$ to $0$, then $p^\mu$ is unchanged but $q^\mu\rightarrow (1,0,\sinh(1),\cosh(1))$.  The new invariant mass of $q^\mu$ and $p^\mu$ is about 1, which is reduced from its original value of $\sqrt{2}$.  The parity inversion pre-processing step does not impact the image mass, but a $I^2$ normalization does modify the image mass.  The easiest way to see this is to take a series of images with exactly the same image mass but variable $I^2$ norm.  The map $I_i\mapsto I_i/\sum_j I_j^2$ modifies the mass by $m_I\mapsto m_I/\sum_j I_j^2$ and so the spread in the normalizations induces a spread in the mass distribution.
 
+The impact of the various stages of pre-processing on the image mass are illustrated in Fig.~\ref{fig:preprocess2}.  The finite granularity of the simulated detector slightly degrades the resolution, but the translation and parity inversion (flip) have no impact, by construction.  The rotation that will have the biggest potential impact on the image mass is by $\pi/2$ (maximally changing $\eta$ and $\phi$), which does lead to a small change in the mass distribution.  A naive translation in $\eta$ that uses the tower energy as the intensity instead of the transverse momentum or an $I^2$ normalization scheme both significantly broaden the mass distribution.  One way to quantify the amount of information in the jet mass that is lost by various pre-processing steps is shown in the Receiver Operator Characteristic (ROC) curve of Fig.~\ref{fig:preprocess3}.   Information about the mass is lost when the ability to use the mass to differentiate signal and background is diminished.  The naive translation and the $I^2$ normalization schemes are significantly worse than the other image mass curves which are themselves similar in performance. 
+
 \begin{figure}[bt]
   \begin{center}
         \includegraphics[width=0.5\textwidth]{figures/ImageMass_Comparison.pdf}\includegraphics[width=0.5\textwidth]{figures/ImageMass_Comparison_back.pdf}
-      \caption{ 
+      \caption{ The distribution of the image mass after various states of pre-processing for signal jets (left) and background jets (right).  The {\it No pixelation line} is the jet mass without any detector granularity and without any pre-processing.  {\it Only pixelation} has only detector granularity but no pre-processing and all subsequent lines have this pixelation applied as well as translation to center the image at the origin.  The translation is called {\it naive} when the energy is used as the pixel intensity instead of the tower transverse momentum.  {\it Flip} denotes the parity inversion operation and the $p_T^2$ norm is a $I^2$ normalization scheme.  The naive translation and the $I^2$ normalization image masses are both multiplied by constants so that the centers of the distribution are roughly in the same location as for the other distributions.
       \label{fig:preprocess2} }
     \end{center}
 \end{figure}
@@ -54,7 +68,7 @@ m_I^2=\sum_{i<j} E_iE_j(1-\cos(\theta_{ij})),
 \begin{figure}[bt]
   \begin{center}
         \includegraphics[width=0.99\textwidth]{figures/ROCs.pdf}
-      \caption{ 
+      \caption{ The tradeoff between $W$ boson (signal) jet efficiency and inverse QCD (background) efficiency for various pre-processing algorithms applied to the jet (images).  The {\it No pixelation line} is the jet mass without any detector granularity and without any pre-processing.  {\it Only pixelation} has only detector granularity but no pre-processing and all subsequent lines have this pixelation applied as well as translation to center the image at the origin.  The translation is called {\it naive} when the energy is used as the pixel intensity instead of the tower transverse momentum.  {\it Flip} denotes the parity inversion operation and the $p_T^2$ norm is a $I^2$ normalization scheme.  
       \label{fig:preprocess3} }
     \end{center}
 \end{figure}
@@ -62,49 +76,3 @@ m_I^2=\sum_{i<j} E_iE_j(1-\cos(\theta_{ij})),
 \clearpage
 \newpage
 
-\begin{figure}[bt]
-  \begin{center}
-      \subfloat[Unweighted $p_T$ distribution \label{subfig:unweighted_pt}]{
-        \includegraphics[width=0.5\textwidth]{figures/unweighted-pt-distribution-[250-300].pdf}
-      }
-      \subfloat[Weighted $p_T$ distribution \label{subfig:weighted_pt}]{
-        \includegraphics[width=0.5\textwidth]{figures/weighted-pt-distribution[250-300].pdf}
-      }
-      \caption{ Jets originating from the $W'\rightarrow WZ$ decay are re-weighted such that their $p_T$ spectrum matches that of QCD jets\label{fig:pt} }
-    \end{center}
-\end{figure}
-
-
-\begin{figure}[bt]
-  \begin{center}
-  
-  
-      \subfloat[Weighted jet mass distribution \label{subfig:weighted_mass}]{
-        \includegraphics[width=0.5\textwidth]{figures/weighted-mass-distribution[250-300].pdf}
-      }
-      \subfloat[Weighted $\tau_{21}$ distribution \label{subfig:weighted_nsj}]{
-        \includegraphics[width=0.5\textwidth]{figures/weighted-tau21-distribution[250-300].pdf}
-      }
-      \caption{Weighted mass (left) and $n$-subjettiness (right) of samples, with $W'\rightarrow WZ$ decays in red and QCD jets in blue.\label{fig:mass_nsj_spectrum} }
-    \end{center}
-\end{figure}  
-
-
-
-\begin{figure}[bt]
-  \begin{center}
-  
-      \subfloat[Average weighted $W'\rightarrow WZ$ image \label{subfig:weighted_sig}]{
-        \includegraphics[width=0.5\textwidth]{figures/sig-im.pdf}
-      }
-      \subfloat[Average weighted QCD image \label{subfig:weighted_bkg}]{
-        \includegraphics[width=0.5\textwidth]{figures/bkg-im.pdf}
-      }
-      \caption{Weighted $W'\rightarrow WZ$ (left) and QCD (right) average jet-image
-      \label{fig:meanImages} }
-    \end{center}
-\end{figure}  
-
-Discuss the creation of the jet images.
-
-Discuss the physical differences between W bosons and q/g jets?
