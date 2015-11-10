@@ -14,9 +14,16 @@ In Figure~\ref{fig:combinedROC}, we illustrate the performance gains of a deep n
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.95\textwidth]{figures/ROCs}
+  \includegraphics[width=0.5\textwidth]{figures/ROC_1}\includegraphics[width=0.5\textwidth]{figures/ROC_2}
   \caption{Receiver Operating Characteristic (ROC) over coarse sample}
-  \label{fig:combinedROC}
+  \label{fig:combinedROC1}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/ROC_3}\includegraphics[width=0.5\textwidth]{figures/ROC_4}
+  \caption{Receiver Operating Characteristic (ROC) over coarse sample}
+  \label{fig:combinedROC2}
 \end{figure}
 
 We also provide a comparison to a 3D likelihood constructed on $\tau_{21}$, jet mass, and the deep network output itself. We can gain a significant piece of insight from this. Note how in Figure~\ref{fig:combinedROC} we can see that the DNN represents a large gain on a physics-only likelihood. However, when we explicitly include the physics variable in a 3D likelihood, we see a small but definitively non-zero performance gain. This implies that the performance boost \emph{by definition} is getting its gain from something that is not \emph{fully} encapsulated in $\tau_{21}$ and jet mass. 
