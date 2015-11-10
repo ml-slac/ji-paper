@@ -32,7 +32,7 @@ In Figure~\ref{fig:combinedROC}, we illustrate the performance gains of a deep n
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.95\textwidth]{figures/combined-roc.pdf}
+  \includegraphics[width=0.95\textwidth]{figures/ROCs}
   \caption{Receiver Operating Characteristic (ROC) over coarse sample}
   \label{fig:combinedROC}
 \end{figure}
@@ -69,16 +69,16 @@ In order to understand what we learn, we first take a look \emph{inside} the dee
   \begin{center}
       \subfloat[Sculpted QCD $\Delta R$ distribution\label{fig:sculpteddR}]
       {
-        \includegraphics[width=0.5\textwidth]{figures/dR-dist-by-CNN.pdf}
-      }
+        \includegraphics[width=0.45\textwidth]{figures/dR_convnet_back_norm_invert.pdf} \includegraphics[width=0.45\textwidth]{figures/dR_maxout_back_norm_invert.pdf}
+      }\\
       \subfloat[Sculpted QCD $\tau_{21}$ distribution\label{fig:sculptednsj}]
       {
-        \includegraphics[width=0.5\textwidth]{figures/tau-dist-by-CNN.pdf}
+        \includegraphics[width=0.45\textwidth]{figures/mass_convnet_back_norm_invert.pdf} \includegraphics[width=0.45\textwidth]{figures/mass_maxout_back_norm_invert.pdf}
       }
       \\
       \subfloat[Sculpted QCD mass distribution\label{fig:sculptedmass}]
       {
-        \includegraphics[width=0.5\textwidth]{figures/mass-dist-by-CNN.pdf}
+        \includegraphics[width=0.45\textwidth]{figures/tau21_convnet_back_norm_invert.pdf} \includegraphics[width=0.45\textwidth]{figures/tau21_maxout_back_norm_invert.pdf}
       }
 
       \caption{Sculpted QCD distributions}
@@ -91,13 +91,10 @@ In order to understand what we learn, we first take a look \emph{inside} the dee
   \begin{center}
   
       \subfloat[Average $W'\rightarrow WZ$ image \label{subfig:sig_window}]{
-        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-sig.pdf}
-      }
-      \subfloat[Average QCD image \label{subfig:bkg_window}]{
-        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-bkg.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/averages_fixed_nonorm.pdf}
       } \\
       \subfloat[Average image difference \label{subfig:windowdiff}]{
-        \includegraphics[width=0.5\textwidth]{figures/avg-benwindow-diff-clipped.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/difference_fixed_nonorm.pdf}
       }
       \caption{
         $W'\rightarrow WZ$ (left) and QCD (right) average jet-images, and Signal - Background image difference (bottom)
@@ -220,6 +217,7 @@ In this window, we compare the DNN trained outside the window to a Fisher Linear
 
 
 
-
+\clearpage
+\newpage
 
 % section studies (end)
