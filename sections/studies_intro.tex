@@ -1,0 +1,41 @@
+%%%%%%%%%%%
+%%%    studies intro
+%%%%%%%%%%%
+
+In this section, we examine the performance of the MaxOut and Convolution deep neural networks, described in Section~\ref{sec:arch}, in classifying $W^\pm \to q q^\prime$ from QCD jets.  As one of our primary goals is to understand  what these NN's can learn about jet topology for discrimination, we focus on a restricted phase space of the mass and transverse momentum of the jets.  In particular, we restrict our studies to $250$ GeV $\leq p_T \leq 300$ GeV, and confine ourselves to a $65$ GeV $\leq m \leq 95$ GeV mass window, wholly containing the peak of the $W$.   We then construct a scaffolded and multi-approach series of methodologies for understanding, visualizing, and validating neural networks within HEP.
+
+The figures of merit...
+
+
+The performance evaluation and information exploration techniques are examined in three settings, all of which require the aforementioned mass and transverse momentum selection.
+\begin{itemize}
+
+\item \textbf{General Phase Space:} No alterations are made to the phase space.  This give an overview of the performance and information learned by the networks
+
+\item  \textbf{Uniform Phase Space:}  The weights of each jet is altered such that the joint distributions of mass, $n$-subjettiness, and $p_T$ are non-discriminative.  Specifically, we derive weights such that:
+\begin{equation}
+  f(m, \tau_{21}, p_T| W'\rightarrow WZ) \approx f(m, \tau_{21}, p_T| QCD).
+\end{equation}
+Both thre reweighting and network evaluation are performed in slightly more restricted phase space requiring $\tau_{21}\in [0.2, 0.8]$. While $p_T$ is reweighted in all phase space setting, mass and $n$-subjettiness are also weighted in the setting as they are amongst the most discriminating physics-inspired variables.  This weighting ensures that mass, $n$-subjettiness, and $p_T$ do not contribute to differences between signal and background, and thus this information is essentially removed from the discrimination power of the networks.  This allows us to examine what information beyond these variables has been learned and to understand where the neural network performance improvements beyond these physics derived variables comes from.  Neural networks that are trained in the General Phase Space are applied as the discriminant under this ``flattening'' transformation. We also use the training weights inside this window and train an additional CNN. In particular, we look for increases in performance, which would indicate information learned beyond physics variables since we removed the discrimination power using this uniform weighting scheme.
+
+\item \textbf{Highly Restricted Phase Space:} The phase space of mass, $n$-subjettiness, and $p_T$ are restricted to very small windows of size: $m\in [79, 81]$ GeV,  $p_T \in [250, 255]$ GeV, and  $\tau_21 \in [0.19, 0.21]$. No reweighting is performed, and the networks trained in the General Phase Space are used for discrimination and evaluation.  This highly restricted window is provides a different method to effectively remove any discrimination power of mass, $n$-subjettiness, and $p_T$ as there is little to no variation of the variables in these small windows for either signal or background.  Thus, any discrimination improvements of the neural networks over the physics-inspired variables would be coming from information learned beyond these variables.  While the reweighting in the Uniform  Phase Space is designed also to remove such discrimination, it produces a non-physical phase space.  Thus the Highly Restricted Phase Space allows us to be sure that the neural network performance improvements are valid and carry over to a less contrived phase space.
+
+\end{itemize}
+By examining the performance of the neural networks in these different phase spaces, we aim to systematically remove known discriminative information from the networks' performance and thereby probe the information learned beyond what is already known by physics inspired variables.
+
+%To begin understanding what a deep network can learn about jet topology, we choose a finite region of phase space, and standardize our comparisons. In an effort to define a standard way that physics object identification using machine learning should be conducted, we exactly define our procedure for comparisons. 
+
+\subsection{Figure of Merit} % (fold)
+\label{sec:figure_of_merit}
+
+As is commonly done in High Energy Physics, we eschew the commonly chosen metric of basic accuracy in favor of the Receiver Operating characteristic. This is because we must examine the entire spectrum of trade-off between Type-I and Type-II error, as many applications in physics will choose different points along the trade-off curve. We use a slight modification of the traditional ROC. For any discriminating variable, let $c$ be a threshold on the likelihood ratio on that variable, and let $w$ be the vector of weights over the entire evaluation sample. We define the \emph{rejection} of such a threshold is defined as 
+$$
+    \rho(c) = \frac{1}{\text{FPR}(c, w)},
+$$
+where $\text{FPR}(c, w)$ is the weighted false positive rate for using $c$ as a threshold.
+
+We define the \emph{efficiency} of $c$ as 
+$$
+    \varepsilon(c) = \text{TPR}(c, w),
+$$
+where $\text{TPR}(c, w)$ is the weighted false positive rate for using $c$ as a threshold. We then evaluate our algorithms using the area under the line generated by $\{(\varepsilon(c), \rho(c)) : \varepsilon(c)\in [0.2, 0.8]\}$. We say that an classifier is \emph{strictly} more performant if the ROC curve is above a baseline for all efficiencies.
