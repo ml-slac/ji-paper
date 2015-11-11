@@ -2,7 +2,7 @@
 \subsection{Studies in the General Phase Space} % (fold)
 \label{sub:coarse_studies}
 
-In order to examine the overall discrimination performance of the DNN's to that of the physics-driven variables, we examine the ROC curves in Figure~\ref{fig:combinedROC1}. In particular, we compare the DNN's to $n$-subjettiness~\cite{nsub} $\tau_{21} = \tau_{2}/\tau_{1}$, the jet mass, and the distance $\Delta R$ between the leading two $p_{T}$ subjets.  In Figure~\ref{fig:combinedROC1a}, we can see that the three DNN's have similar performance, but the MaxOut networks tends to outperform the ConvNet networks.  We suspect that the MaxOut tends to outperform the ConvNets due to sparsity of the jet-images, whereby the MaxOut network views the full jet-image from the inital hidden layer while the sparsity tends to make it difficult for the ConvNets to learn meaningful convolution filters .  We also see that the ConvNet-Norm tends to outperform the ConvNet trained on the un-normalized jet-images.  As we will see soon,  it is difficult for these networks to fully learn the jet mass and thus the loss of mass information from normalization and energy  binning (rather than transverse energy) of the ConvNet-Norm training tends to not to impede performance.   Finally, we can see the Fisher-Jet discriminant\footnote{The Fisher discriminant is trained in three partitions of $\Delta  R$ ($\Delta R \in [0.25, 0.5],\ [0.5, 0.75],\ [>0.75])$, in order to account for the non-linear variation in jet-images from the differing positions of the two subjets.} performance, as described in reference~\ref{JetImages}, which outperforms the physics inspired variables (as expected) but is much less performant than the DNN's. In addition, in Figure~\ref{fig:combinedROC1b} we see that the DNN's also outperform the two-variable combinations of the physics inspired variables (computed using the 2D likelihood ratio).   It is interesting to note that combining mass and $\tau_{21}$, or $\tau_{21}$ and $\Delta R$, achieve much higher performance than the individual variables and are significantly closer to the performance of the DNN's.
+In order to examine the overall discrimination performance of the DNN's to that of the physics-driven variables, we examine the ROC curves in Figure~\ref{fig:combinedROC1}. In particular, we compare the DNN's to $n$-subjettiness~\cite{nsub} $\tau_{21} = \tau_{2}/\tau_{1}$, the jet mass, and the distance $\Delta R$ between the leading two $p_{T}$ subjets.  In Figure~\ref{fig:combinedROC1a}, we can see that the three DNN's have similar performance, but the MaxOut networks tends to outperform the ConvNet networks.  We suspect that the MaxOut tends to outperform the ConvNets due to sparsity of the jet-images, whereby the MaxOut network views the full jet-image from the inital hidden layer while the sparsity tends to make it difficult for the ConvNets to learn meaningful convolution filters .  We also see that the ConvNet-Norm tends to outperform the ConvNet trained on the un-normalized jet-images.  As we will see soon,  it is difficult for these networks to fully learn the jet mass and thus the loss of mass information from normalization and energy  binning (rather than transverse energy) of the ConvNet-Norm training tends to not to impede performance.   Finally, we can see the Fisher-Jet discriminant\footnote{The Fisher discriminant is trained in three partitions of $\Delta  R$ ($\Delta R \in [0.25, 0.5],\ [0.5, 0.75],\ [>0.75])$, in order to account for the non-linear variation in jet-images from the differing positions of the two subjets.} performance, as described in reference~\ref{JetImages}, which outperforms the physics inspired variables (as expected) but is much less performant than the DNN's. In addition, in Figure~\ref{fig:combinedROC1b} we see that the DNN's also outperform the two-variable combinations of the physics inspired variables (computed using the 2D likelihood ratio).   It is interesting to note that combining mass and $\tau_{21}$, or $\tau_{21}$ and $\Delta R$, achieve much higher performance than the individual variables and are significantly closer to the performance of the DNN's.  However, the large difference in performance between the DNN's and the physics-variable combinations indicates that there may be information learned by the networks beyond these physics-variables.
 %This is likely due to the normalization and energy binning helping to provide more uniformity in the typical pixel intensities across jet-images.
 \begin{figure}[!htbp]
 \begin{center}
@@ -20,9 +20,7 @@ In order to examine the overall discrimination performance of the DNN's to that 
 \end{figure}
 
 
-
-
-
+While we can see in Figure~\ref{fig:combinedROC1} that the DNN's outperform the individual and two-variable physics inspired discriminators, we want to understand if these physics variables have been learned by the networks.  As such, we compute the combination of the DNN's with each of the physics inspired variables (using the 2D likelihood), as seen for the ConvNet in Figure~\ref{fig:combinedROC2a} and for the MaxOut network in Figure~\ref{fig:combinedROC2b}. In both cases, we see that the discriminators combining $\Delta R$ or $\tau_{21}$ with the DNN's does not improve performance.  This indicate that the information contained in these physics-inspired variables  has already been fully learned by the networks.  However, adding mass in combination with the DNN's shows a noticeable improvement in performance over the DNN's alone.  This indicates that all of the information contained in the mass variable has not been learned by the DNN's.  While it is not shown, similar patterns are found for the Conv-Norm network.
 \begin{figure}[!htbp]
   \begin{center}
 \subfloat[]{
@@ -38,14 +36,34 @@ In order to examine the overall discrimination performance of the DNN's to that 
   \label{fig:combinedROC2}
 \end{figure}
 
-We also provide a comparison to a 3D likelihood constructed on $\tau_{21}$, jet mass, and the deep network output itself. We can gain a significant piece of insight from this. Note how in Figure~\ref{fig:combinedROC} we can see that the DNN represents a large gain on a physics-only likelihood. However, when we explicitly include the physics variable in a 3D likelihood, we see a small but definitively non-zero performance gain. This implies that the performance boost \emph{by definition} is getting its gain from something that is not \emph{fully} encapsulated in $\tau_{21}$ and jet mass. 
+Another way to inspect what information about the physics-inspired variables has been learned by the DNN's is to study the correlation between the DNN output and the physics-variables.  The correlations are shown in Figure~\ref{fig:sculptedConv} for the ConvNet, and in Figure~\ref{fig:sculptedConv} for the MaxOut network,  against the jet mass, $\Delta R$, and $\tau_{21}$.   These distributions are normalized in bins of the DNN output, and thus the $z$-axis is showing the probability of the physics variable given the network output (i.e. $P($variable | network output$)$). Normalizing the distributions in this way allows us to see the most probable values of the physics variables at each point of the network output, without being affected by the overall distribution of jets in this 2D space.  We can see that both networks show a strong (non-linear) correlations with $\tau_{21}$ and $\Delta R$, giving further evidence that this information has been learned by the networks.  However, the correlations are much weaker with the jet mass variable, being slightly more strongly correlated with the MaxOut network output.  While it is not shown, similar patterns are found for the Conv-Norm network.
+\begin{figure}[htbp!]
+  \begin{center}
+  
+  \subfloat[Sculpted QCD  ConvNet network output versus mass (left), $\Delta R$ (middle), and $\tau_{21}$ (right) distributions\label{fig:sculptedConv}]
+      {
+        \includegraphics[width=0.32\textwidth]{figures/mass_convnet_back_norm_invert.pdf}
+         \includegraphics[width=0.32\textwidth]{figures/dR_convnet_back_norm_invert.pdf} 
+         \includegraphics[width=0.32\textwidth]{figures/tau21_convnet_back_norm_invert.pdf}
+      }\\
+        \subfloat[Sculpted QCD  MaxOut network output versus mass (left), $\Delta R$ (middle), and $\tau_{21}$ (right) distributions\label{fig:sculptedMax}]
+      {
+        \includegraphics[width=0.32\textwidth]{figures/mass_maxout_back_norm_invert.pdf}
+         \includegraphics[width=0.32\textwidth]{figures/dR_maxout_back_norm_invert.pdf} 
+         \includegraphics[width=0.32\textwidth]{figures/tau21_maxout_back_norm_invert.pdf}
+      }\\
 
-Though important on it's own, this figure of merit does little to help drive understanding in the context of HEP. Such an increase begs further questions -- what is this gain, and where does it come from? Why is the DNN able to pick up on this?
+      \caption{Sculpted QCD distributions}
+      \label{fig:qcdsculpt}
 
-
+    \end{center}
+\end{figure}
 
 \subsubsection{Understanding what is learned} % (fold)
 \label{ssub:understanding_what_is_learned}
+
+Though important on it's own, this figure of merit does little to help drive understanding in the context of HEP. Such an increase begs further questions -- what is this gain, and where does it come from? Why is the DNN able to pick up on this?
+
 
 % subsubsection understanding_what_is_learned (end)
 In Figure~\ref{fig:convkernels}, we first examine the $11\times11$ convolutional filters in the first layer and look for structure. In
@@ -62,28 +80,6 @@ In order to understand what we learn, we first take a look \emph{inside} the dee
       }
       \caption{Convolutional Kernels (left), and convolved feature differences in jet images (right)}
       \label{fig:convkernels}
-
-    \end{center}
-\end{figure}
-
-\begin{figure}[bt]
-  \begin{center}
-      \subfloat[Sculpted QCD $\Delta R$ distribution\label{fig:sculpteddR}]
-      {
-        \includegraphics[width=0.45\textwidth]{figures/dR_convnet_back_norm_invert.pdf} \includegraphics[width=0.45\textwidth]{figures/dR_maxout_back_norm_invert.pdf}
-      }\\
-      \subfloat[Sculpted QCD $\tau_{21}$ distribution\label{fig:sculptednsj}]
-      {
-        \includegraphics[width=0.45\textwidth]{figures/mass_convnet_back_norm_invert.pdf} \includegraphics[width=0.45\textwidth]{figures/mass_maxout_back_norm_invert.pdf}
-      }
-      \\
-      \subfloat[Sculpted QCD mass distribution\label{fig:sculptedmass}]
-      {
-        \includegraphics[width=0.45\textwidth]{figures/tau21_convnet_back_norm_invert.pdf} \includegraphics[width=0.45\textwidth]{figures/tau21_maxout_back_norm_invert.pdf}
-      }
-
-      \caption{Sculpted QCD distributions}
-      \label{fig:qcdsculpt}
 
     \end{center}
 \end{figure}
@@ -106,14 +102,15 @@ where $\ast$ is the standard convolution operator. We arrange these new ``convol
 \subsubsection{Physics in Deep Representations} % (fold)
 \label{ssub:physics_in_deep_representations}
 
-To get a tangible and more intuitive understanding of what jet structures a DNN learns, we construct the following. Let $y$ be the DNN output, and consider every pixel $p_ij$ in transformed $(\eta, \phi)$ space. We the construct an image where each pixel $(i, j)$ is $\rho_{p_{ij}, y}$, the Pearson Correlation Coefficient of that pixels energy deposition with the final DNN output. In Figure~\ref{fig:corr}, we construct this image, and can see interesting structure in the subleading subjet region as well as asymmetric scattering patterns around the leading subjet.
+This implies that the performance boost \emph{by definition} is getting its gain from something that is not \emph{fully} encapsulated in $\tau_{21}$ and jet mass.
 
+To get a tangible and more intuitive understanding of what jet structures a DNN learns, we construct the following. Let $y$ be the DNN output, and consider every pixel $p_ij$ in transformed $(\eta, \phi)$ space. We the construct an image where each pixel $(i, j)$ is $\rho_{p_{ij}, y}$, the Pearson Correlation Coefficient of that pixels energy deposition with the final DNN output. In Figure~\ref{fig:corr}, we construct this image, and can see interesting structure in the subleading subjet region as well as asymmetric scattering patterns around the leading subjet.
 
 
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.95\textwidth]{figures/pixel-activations-corr.pdf}
+  \includegraphics[width=0.5\textwidth]{figures/pixel-activations-corr.pdf}
   \caption{Per-pixel linear correlation with DNN output}
   \label{fig:corr}
 \end{figure}
