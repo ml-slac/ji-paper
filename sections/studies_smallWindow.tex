@@ -31,15 +31,15 @@ The differences between images in these small windows tells us about what inform
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\textwidth]{figures/augwindow-roc.pdf}
+  \includegraphics[width=0.5\textwidth]{figures/augwindow-roc.pdf}
   \caption{Receiver Operating Characteristic (ROC) over window sample}
   \label{fig:rocWindow}
 \end{figure}
 
-\subsubsection{Understanding what we learn} % (fold)
-\label{ssub:understanding_what_we_learn}
+%\subsubsection{Understanding what we learn} % (fold)
+%\label{ssub:understanding_what_we_learn}
 
-Now, we turn back to the neutral network and their performance in these small windows of jet mass and $\tau_{21}$.  
+Now, we turn back to the neutral network and their performance in these small windows of jet mass and $\tau_{21}$.    Figure~\ref{fig:rocWindow} shows three ROC curves in the window $\tau_{21} \in[0.19,0.21].  By construction, the $\tau_{21}$ curve is no better than a random guess, since this variable does not significantly vary over the small window.  The other two curves are a Fisher Linear Discriminant\footnote{There is no $\Delta R$ binning as in the Fisher Jets of X, but this will make no difference since the $\Delta R$ distribution does not signficantly compared with the courase $\Delta R$ bins within the small mass and $p_T$ windows.} (FLD)
 
 In this window, we compare the DNN trained outside the window to a Fisher Linear Discriminant trained inside the window. In Figure~\ref{fig:rocWindow} we see this performance comparison, and note that our DNN outperforms the FLD.
 
