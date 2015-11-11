@@ -20,7 +20,9 @@ p_j = \sum_{i\text{ incident on $j$}}E_i(\cos\phi_j/\cosh \eta_j,\sin\phi_j/\cos
 
 \begin{figure}[bt]
   \begin{center}
-        \includegraphics[width=0.45\textwidth]{figures/mass.pdf} \includegraphics[width=0.45\textwidth]{figures/tau21.pdf} \\\includegraphics[width=0.45\textwidth]{figures/dR.pdf}
+        \includegraphics[width=0.32\textwidth]{figures/mass.pdf} 
+        \includegraphics[width=0.32\textwidth]{figures/tau21.pdf} 
+        \includegraphics[width=0.32\textwidth]{figures/dR.pdf}
       \caption{ The distributions of the jet mass (top left), $\tau_{21}$ (top right) and the $\Delta R$ between subjets (bottom) for signal (blue) and background (red) jets.
       \label{fig:datastats} }
     \end{center}
@@ -67,12 +69,10 @@ The impact of the various stages of pre-processing on the image mass are illustr
 
 \begin{figure}[bt]
   \begin{center}
-        \includegraphics[width=0.99\textwidth]{figures/ROCs_compare.pdf}
+        \includegraphics[width=0.5\textwidth]{figures/ROCs_compare.pdf}
       \caption{ The tradeoff between $W$ boson (signal) jet efficiency and inverse QCD (background) efficiency for various pre-processing algorithms applied to the jet (images).  The {\it No pixelation line} is the jet mass without any detector granularity and without any pre-processing.  {\it Only pixelation} has only detector granularity but no pre-processing and all subsequent lines have this pixelation applied as well as translation to center the image at the origin.  The translation is called {\it naive} when the energy is used as the pixel intensity instead of the tower transverse momentum.  {\it Flip} denotes the parity inversion operation and the $p_T^2$ norm is a $I^2$ normalization scheme.  
       \label{fig:preprocess3} }
     \end{center}
 \end{figure}
 
-\clearpage
-\newpage
 
