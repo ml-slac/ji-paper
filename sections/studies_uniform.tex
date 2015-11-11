@@ -1,20 +1,19 @@
 \subsection{Studies in the Uniform Phase Space} % (fold)
 \label{sub:flat_hypercube_studies}
 
-Since we outperform physics-derived variables, we would like to know where these performance improvements come from. Our first approach to this is \emph{hypercube reweighting}. In particular, we derive weights such that the joint distributions of mass, $n$-subjettiness, and $p_T$ are non-discriminative. Specifically, we require
+An important part of the investigation into what the neutral networks are learning beyond the standard physics features is to quantify the performance when these features are removed.  One way to remove the discrimination power from a given feature is to apply a transformation such that the marginal likelihood ratio is constant at unity.  In other words, we derive event-by-event weights such that
 
 \begin{equation}
+\label{eq:flat}
   f(m, \tau_{21}, p_T| W'\rightarrow WZ) \approx f(m, \tau_{21}, p_T| QCD).
 \end{equation}
 
-We then take our globally trained neural network (Figure~\ref{fig:combinedROC}) and apply the discriminant under this ``flattening'' transformation. We also use the training weights inside this window and train an additional CNN. In particular, we look for increases in performance, which would indicate information learned beyond physics variables since we removed the discrimination power using hypercube weighting.
-
-In Figure~\ref{fig:rocCube} we show that the globally trained NN retains discrimination power even once we ``subtract'' the discrimination power of primitives from physics.
+Figure~\ref{fig:rocCube} shows the ROC curve for various features with this weighting scheme applied.  By construction, $\tau_{21}$ and the jet mass do not have any discrimination power between signal and background, evident by the fact that $\epsilon_\text{bkg}=\epsilon_\text{signal}$.    However, the convolutional network that is trained inclusively does have some discrimination power.  For a fixed signal efficiency, the overall performance is significantly degraded with respect to the un-weighted ROC curve in Fig.~\ref{fig:combinedROC1}, but the improvement over a random guess is significant.  Interestingly, the `other' information learned by the network is effectively gathered during the inclusive training - there is only a marginal improvement by performing a dedicated training of the convolution network with the weights applied.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{figures/roc-cube-inside.pdf}
-  \caption{ROC Curve for weigth-flattened hypercube, with $m\in[65, 95]\mathsf{GeV}$,  $p_T\in[250, 300]\mathsf{GeV}$, and  $\tau_{21}\in[0.2, 0.8]$}
+  \caption{Various ROC curves with event weights that enforce Eq.~\ref{eq:flat} inside $m\in[65, 95]\mathsf{GeV}$,  $p_T\in[250, 300]\mathsf{GeV}$, and  $\tau_{21}\in[0.2, 0.8]$.  By construction, the $\tau_{21}$ and likelihood combination of $\tau_{21}$ and mass are non-discriminating.  The Deep Network lines are for the convolution network without normalization and using the energy-scheme for pixel intensities.  One network is trained without weights ({\it outside}) and one is trained with the weights applied ({\it inside}).}
   \label{fig:rocCube}
 \end{figure}
 
