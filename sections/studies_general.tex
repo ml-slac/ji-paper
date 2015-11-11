@@ -88,21 +88,6 @@ In order to understand what we learn, we first take a look \emph{inside} the dee
     \end{center}
 \end{figure}
 
-\begin{figure}[bt]
-  \begin{center}
-  
-      \subfloat[Average $W'\rightarrow WZ$ image \label{subfig:sig_window}]{
-        \includegraphics[width=0.99\textwidth]{figures/averages_fixed_nonorm.pdf}
-      } \\
-      \subfloat[Average image difference \label{subfig:windowdiff}]{
-        \includegraphics[width=0.99\textwidth]{figures/difference_fixed_nonorm.pdf}
-      }
-      \caption{
-        $W'\rightarrow WZ$ (left) and QCD (right) average jet-images, and Signal - Background image difference (bottom)
-        \label{fig:meanImagesWindow} 
-      }
-    \end{center}
-\end{figure}  
 
 In Figure~\ref{subfig:filters}, we show the (11$\times$11) convolutional filters learned by our network. To mimic the operation in the first layer of the network, we can convolve each filter with an average jet image to get an understanding of what features the network learns at the first layer. 
 
