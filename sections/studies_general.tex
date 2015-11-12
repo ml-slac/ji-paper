@@ -90,6 +90,17 @@ where $\ast$ is the convolution operator. We arrange these new ``convolved jet-i
 \end{figure}
 
 
+For every node in the last hidden layer in the maxout network (i.e., the layer before the classification layer) we examine the node activations, and take the weighted (by pT flat  weights) average of the top 501 jet images that activate that node. Then, we order the nodes from top left to bottom right by increasing sparsity -- that is, we go from least sparse (most commonly activated and > 0) to most sparse (least commonly activated and frequently equal to zero). Fig.~\ref{fig:mostactiviate}.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/maxnodes.pdf}
+  \caption{caption.}
+  \label{fig:mostactiviate}
+\end{figure}
+
+
+
 
 \subsubsection{Physics in Deep Representations} % (fold)
 \label{ssub:physics_in_deep_representations}
