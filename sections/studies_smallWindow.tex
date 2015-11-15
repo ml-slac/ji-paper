@@ -1,3 +1,7 @@
+
+\clearpage
+\newpage
+
 \subsection{Studies in the Highly Restricted Phase Space} % (fold)
 \label{sub:small_window_studies}
 
@@ -39,14 +43,16 @@ The differences between images in these small windows tells us about what inform
 %\subsubsection{Understanding what we learn} % (fold)
 %\label{ssub:understanding_what_we_learn}
 
-Now, we turn back to the neutral network and their performance in these small windows of jet mass and $\tau_{21}$.    Figure~\ref{fig:rocWindow} shows three ROC curves in the window $\tau_{21} \in$[0.19,0.21].  By construction, the $\tau_{21}$ curve is no better than a random guess, since this variable does not significantly vary over the small window.  The other two curves are a Fisher Linear Discriminant\footnote{There is no $\Delta R$ binning as in the Fisher Jets of Ref.~\cite{Cogan:2014oua}, but this will make little difference since the $\Delta R$ distribution does not significantly compared with the coarse $\Delta R$ bins within the small mass and $p_T$ windows.} (FLD) trained {\it inside the window} and the convolutional neural network using the energy as pixel intensity and normalized images trained {\it outside the window}.  As in the previous section, this allows us to quantify the unique information in the neural network compared to standard features.  Also, as before, we do not learn where the information resides, though there must be some useful non-linear information as the DNN outperforms the FLD.  One way to {\it visualize} the unique information is to look at the the Fisher Jet (Fig.~\ref{fig:fldWindow}) and the per-pixel correlation between the intensity and neural network output (Fig.~\ref{fig:corrWindow}).  The fisher jet in Fig.~\ref{fig:fldWindow} is used in the FLD by taking the inner-product with a given jet, treating each image as an $n\times n$ vector.  Positive structures will give a bigger output value for signal jets and negative structures will give a bigger output value for background jets.  The physical interpretation of the red and blue areas in Fig.~\ref{fig:fldWindow} are related to the colorflow of $W$ and background jets.  The area in-between the subjets should have more radiation than the area around and outside of the subjets for $W$ jets and vice-versa for QCD jets.  Similar structures are also seen in the per-pixel correlations with the network output in Fig.~\ref{fig:corrWindow}.  While Fig.~\ref{fig:corrWindow} is not directly the discriminant used in the network and only represents linear correlations with the network output, it does show non-linear spatial information and gives a sense of where in the image the network is looking for discriminating features.
+Now, we turn back to the neutral network and their performance in these small windows of jet mass and $\tau_{21}$.    Figure~\ref{fig:rocWindow} shows three ROC curves in the window $\tau_{21} \in$[0.19,0.21].  By construction, the $\tau_{21}$ curve is no better than a random guess, since this variable does not significantly vary over the small window.  The other two curves are a Fisher Linear Discriminant\footnote{There is no $\Delta R$ binning as in the Fisher Jets of Ref.~\cite{Cogan:2014oua}, but this will make little difference since the $\Delta R$ distribution does not significantly compared with the coarse $\Delta R$ bins within the small mass and $p_T$ windows.} (FLD) trained {\it inside the window} and the convolutional neural network using the energy as pixel intensity and normalized images trained {\it outside the window}.  As in the previous section, this allows us to quantify the unique information in the neural network compared to standard features.   One way to {\it visualize} the unique information is to look at the per-pixel correlation between the intensity and neural network output (Fig.~\ref{fig:corrWindow}).  The physical interpretation of the red and blue areas in Fig.~\ref{fig:corrWindow} are related to the colorflow of $W$ and background jets.  The area in-between the subjets should have more radiation than the area around and outside of the subjets for $W$ jets and vice-versa for QCD jets.  While Fig.~\ref{fig:corrWindow} is not directly the discriminant used in the network and only represents linear correlations with the network output, it does show non-linear spatial information and gives a sense of where in the image the network is looking for discriminating features.
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.65\textwidth]{figures/fld-benwindow.pdf}
-  \caption{Cell coefficients from the Fisher Jet in FLD analysis in a window: $m_\text{jet}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$.}
-  \label{fig:fldWindow}
-\end{figure}
+%The fisher jet in Fig.~\ref{fig:fldWindow} is used in the FLD by taking the inner-product with a given jet, treating each image as an $n\times n$ vector.  Positive structures will give a bigger output value for signal jets and negative structures will give a bigger output value for background jets.  
+
+%\begin{figure}[h!]
+ % \centering
+ % \includegraphics[width=0.65\textwidth]{figures/fld-benwindow.pdf}
+ % \caption{Cell coefficients from the Fisher Jet in FLD analysis in a window: $m_\text{jet}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$.}
+%  \label{fig:fldWindow}
+%\end{figure}
 
 \begin{figure}[h!]
   \centering

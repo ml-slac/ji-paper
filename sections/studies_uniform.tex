@@ -1,7 +1,7 @@
 \subsection{Studies in the Uniform Phase Space} % (fold)
 \label{sub:flat_hypercube_studies}
 
-An important part of the investigation into what the neutral networks are learning beyond the standard physics features is to quantify the performance when these features are removed.  One way to remove the discrimination power from a given feature is to apply a transformation such that the marginal likelihood ratio is constant at unity.  In other words, we derive event-by-event weights such that
+An important part of the investigation into what the neutral networks are learning beyond the standard physics features is to quantify the performance when these features are removed.  This represents the {\it unique information} learned by the network.  One way to remove the discrimination power from a given feature is to apply a transformation such that the marginal likelihood ratio is constant at unity.  In other words, we derive event-by-event weights such that
 
 \begin{equation}
 \label{eq:flat}
@@ -12,7 +12,8 @@ Figure~\ref{fig:rocCube} shows the ROC curve for various features with this weig
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.95\textwidth]{figures/roc-cube-inside.pdf}
+ % \includegraphics[width=0.95\textwidth]{figures/roc-cube-inside.pdf}
+    \includegraphics[width=0.5\textwidth]{figures/ROCs_window.pdf}
   \caption{Various ROC curves with event weights that enforce Eq.~\ref{eq:flat} inside $m\in[65, 95]\mathsf{GeV}$,  $p_T\in[250, 300]\mathsf{GeV}$, and  $\tau_{21}\in[0.2, 0.8]$.  By construction, the $\tau_{21}$ and likelihood combination of $\tau_{21}$ and mass are non-discriminating.  The Deep Network lines are for the convolution network without normalization and using the energy-scheme for pixel intensities.  One network is trained without weights ({\it outside}) and one is trained with the weights applied ({\it inside}).}
   \label{fig:rocCube}
 \end{figure}
