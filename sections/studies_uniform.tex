@@ -5,16 +5,18 @@ An important part of the investigation into what the neutral networks are learni
 
 \begin{equation}
 \label{eq:flat}
-  f(m, \tau_{21}, p_T| W'\rightarrow WZ) \approx f(m, \tau_{21}, p_T| QCD).
+  f(m, \tau_{21}, p_T| W'\rightarrow WZ) \approx f(m, \tau_{21}, p_T| QCD),
 \end{equation}
 
-Figure~\ref{fig:rocCube} shows the ROC curve for various features with this weighting scheme applied.  By construction, $\tau_{21}$ and the jet mass do not have any discrimination power between signal and background, evident by the fact that $\epsilon_\text{bkg}=\epsilon_\text{signal}$.    However, the convolutional network that is trained inclusively does have some discrimination power.  For a fixed signal efficiency, the overall performance is significantly degraded with respect to the un-weighted ROC curve in Fig.~\ref{fig:combinedROC1}, but the improvement over a random guess is significant.  Interestingly, the `other' information learned by the network is effectively gathered during the inclusive training - there is only a marginal improvement by performing a dedicated training of the convolution network with the weights applied.
+\noindent where $f(X|Y)$ is the probability density function of $X$ given $Y$.  This is done practically by binning the mass and $\tau_{21}$ distributions and then assigning to each event a weight given by the inverse bin content corresponding to the jet masa and $\tau_{21}$ of that particular event. Figure~\ref{fig:rocCube} shows the ROC curve for various features with this weighting scheme applied.  By construction, $\tau_{21}$ and the jet mass do not have any discrimination power between signal and background, evident by the fact that $\epsilon_\text{bkg}(\epsilon_\text{signal})=\epsilon_\text{signal}$ (the random guess line).    However, the convolutional network that is trained inclusively (without the weights from Eq.~\ref{eq:flat}) does have some discrimination power when the weights from Eq.~\ref{eq:flat} are applied..  For a fixed signal efficiency, the overall performance is significantly degraded with respect to the un-weighted ROC curve in Fig.~\ref{fig:combinedROC1}, but the improvement over a random guess is significant.  Interestingly, the network performance is significantly better in this re-weighted setting when the same weighting is applied during training (effort by the network is not needed to learn $\tau_{21}$, for instance).  The Convnet and Maxout procedures training inclusively have similar performance.
+
+One can gain intuition about the unique information learned by the network by studying the correlation of the network output and the pixel intensities with the Eq.~\ref{eq:flat} weights applied.  This is shown in Fig.~\ref{fig:cor_hyper} with and without the weights applied during training.  The two correlation plots are qualitatively similar, but the region to the right of the subjets is more enhanced when the weights are applied during the training.  This suggests that information about radiation surrounding the subjets contains important discrimination power contributing to the network's unique information.
 
 \begin{figure}[htbp]
   \centering
  % \includegraphics[width=0.95\textwidth]{figures/roc-cube-inside.pdf}
     \includegraphics[width=0.5\textwidth]{figures/ROCs_window.pdf}
-  \caption{Various ROC curves with event weights that enforce Eq.~\ref{eq:flat} inside $m\in[65, 95]\mathsf{GeV}$,  $p_T\in[250, 300]\mathsf{GeV}$, and  $\tau_{21}\in[0.2, 0.8]$.  By construction, the $\tau_{21}$ and likelihood combination of $\tau_{21}$ and mass are non-discriminating.  The Deep Network lines are for the convolution network without normalization and using the energy-scheme for pixel intensities.  One network is trained without weights ({\it outside}) and one is trained with the weights applied ({\it inside}).}
+  \caption{Various ROC curves with event weights that enforce Eq.~\ref{eq:flat} inside $m\in[65, 95]\mathsf{GeV}$,  $p_T\in[250, 300]\mathsf{GeV}$, and  $\tau_{21}\in[0.2, 0.8]$.  By construction, the $\tau_{21}$ and likelihood combination of $\tau_{21}$ and mass are non-discriminating (and are thus equal to a random guess).  The Convnet, Maxout, and Maxout-norm networks are trained without the weights applied and the MaxOut (weighted) line was trained with the weights applied during training.}
   \label{fig:rocCube}
 \end{figure}
 
@@ -22,8 +24,8 @@ Figure~\ref{fig:rocCube} shows the ROC curve for various features with this weig
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{figures/hypercube-pixel-activations-corr.pdf} \includegraphics[width=0.45\textwidth]{figures/ahypercube-pixel-activations-corr.pdf}
-  \caption{Left: trained inclusively but weighted for the plot and right is trained with uniform weights and also weighted for the plot.}
-  \label{fig:images_hyper}
+  \caption{Pearson Correlation Coefficient for pixel intensity and the convolutional neural network output for $W'\rightarrow WZ$ and QCD (combined) for the MaxOut network training inclusively and then weighted (left) and for the MaxOut network training with the weights from Eq.~\ref{equation} applied also during the training.}
+  \label{fig:cor_hyper}
 \end{figure}
 
 % subsection flat_hypercube_studies (end)
