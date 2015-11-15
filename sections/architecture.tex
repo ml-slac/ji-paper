@@ -4,13 +4,13 @@
 
 %An in-depth examination of architectures via trial and error is left  future 
 
-We begin with the notion that the discretization procedure outlined in Section \ref{sec:simulation} produces $25\times 25$ ``energy-scale'' images in one channel -- a High Energy Physics analogue of a grayscale image. We note that the images we work with are \emph{sparse} -- roughly 12\% of pixels are active on average. Future work can build on efficient techniques for exploiting the sparse nature of these images -- i.e., memoized convolutions. However, since speed is not our driving force in this work, we utilized convolution implementations defined for dense inputs.  We also study fully connected Maxout networks~\cite{maxout:goodfellow}.
+We begin with the notion that the discretization procedure outlined in Section \ref{sec:simulation} produces $25\times 25$ ``transverse-energy-scale'' images in one channel -- a High Energy Physics analogue of a grayscale image. We note that the images we work with are \emph{sparse} -- roughly 12\% of pixels are active on average. Future work can build on efficient techniques for exploiting the sparse nature of these images. However, since speed is not our driving force in this work, we used convolution implementations defined for dense inputs.  We also study fully connected Maxout networks~\cite{maxout:goodfellow}.  Other architectures were also studied, such as Stack Denoising Autoencoders~\cite{SDAE}, and multi-layer fully connected networks with various activation functions, but found that convolution and Maxout networks were the most performant.
 
-\subsubsection{Architectural Selection} % (fold)
+\subsection{Architectural Selection} % (fold)
 \label{ssub:architectural_selection}
-For the MaxOut architecture, we utilize two fully connected (FC) layers with MaxOut activation (the first with 256 units, the second with 128 units, both of which have 5 piecewise components in the Maxout-operation), followed by two FC layers with Rectified Linear Unit (ReLU) activations (the first with 64 units, the second with 25 units), followed by a FC sigmoid layer for classification. We found that the He-uniform initialization~\cite{HE_initialization} for the initial MaxOut layer weights was needed in order to train the network, which we suspect is due to the sparsity of the jet-image input. In cases where other initialization schemes were used, the networks often converged to very sub optimal solutions.  This network is trained (and evaluated) on un-normalized jet-images using the transverse energy for the pixel intensities
+For the Maxout architecture, we utilize two fully connected (FC) layers with Maxout activation (the first with 256 units, the second with 128 units, both of which have 5 piecewise components in the Maxout-operation), followed by two FC layers with Rectified Linear Unit (ReLU) activations (the first with 64 units, the second with 25 units), followed by a FC sigmoid layer for classification. We found that the He-uniform initialization~\cite{HE_initialization} for the initial Maxout layer weights was needed in order to train the network, which we suspect is due to the sparsity of the jet-image input. In cases where other initialization schemes were used, the networks often converged to very sub optimal solutions.  This network is trained (and evaluated) on un-normalized jet-images using the transverse energy for the pixel intensities
 
-For the deep convolution networks, we utilize a convolutional architecture consisting of three sequential \texttt{[Conv + Max-Pool + Dropout]} units, followed by a local response normalization (LRN) layer~\cite{dropout:and:LRN}, followed by two fully connected, dense layers. We note that the convolutional layers used are so called ``full'' convolutions -- i.e., zero padding is added the the input pre-convolution. A conceptual visualization of the network architecture can be seen in Figure~\ref{fig:arch}. Our architecture can be succinctly written as:
+For the deep convolution networks, we use a convolutional architecture consisting of three sequential \texttt{[Conv + Max-Pool + Dropout]} units, followed by a local response normalization (LRN) layer~\cite{dropout:and:LRN}, followed by two fully connected, dense layers. We note that the convolutional layers used are so called ``full'' convolutions -- i.e., zero padding is added the the input pre-convolution. A conceptual visualization of the network architecture can be seen in Figure~\ref{fig:arch}. Our architecture can be succinctly written as:
 \begin{equation}
   \mathtt{[Dropout \rightarrow Conv \rightarrow ReLU \rightarrow MaxPool] * 3 \rightarrow LRN \rightarrow [Dropout \rightarrow FC \rightarrow ReLU]  \rightarrow Dropout \rightarrow Sigmoid}.
 \end{equation}
@@ -24,7 +24,7 @@ For the deep convolution networks, we utilize a convolutional architecture consi
 
 The convolution layers each utilize 32 feature maps (or filters), with kernel (filter) sizes of $11\times 11$, $3\times 3$, and $3\times 3$ respectively.  All convolution layers are regularized with the $L^{2}$ weight matrix norm.  A down-sampling of $(2, 2)$, $(3, 3)$, and $(3, 3)$ is performed by the three max pooling layers, respectively.  A dropout~\cite{dropout:and:LRN} of 20\% is used before the first FC layer, and a dropout 10\% is used before the output layer.  The FC hidden layer consists of 64 units.
 
-After early experiments with the standard $3\times 3$ kernel size, we discovered significantly worse performance over a more basic MaxOut \cite{maxout:goodfellow} feedforward network. After further investigation into larger convolutional kernel size, we discovered that larger-than-normal kernels work well on our application. Though not common in the Deep Learning community, we hypothesize that this larger kernel size is helpful when dealing with sparse structures in the input images. In Table~\ref{tab:kernelsize}, we show the optimal kernel size of $11\times11$ while considering the metric outlined in Section~\ref{sec:studies}.
+After early experiments with the standard $3\times 3$ kernel size, we discovered significantly worse performance over a more basic Maxout \cite{maxout:goodfellow} feedforward network. After further investigation into larger convolutional kernel size, we discovered that larger-than-normal kernels work well on our application. Though not common in the Deep Learning community, we hypothesize that this larger kernel size is helpful when dealing with sparse structures in the input images. In Table~\ref{tab:kernelsize}, we show the optimal kernel size of $11\times11$ while considering the metric outlined in Section~\ref{sec:studies}.
 
 \begin{table}[h!]
   \centering
@@ -50,18 +50,18 @@ After early experiments with the standard $3\times 3$ kernel size, we discovered
 \end{table}
 % table
 
-Two convolution networks, which differ in their pre-processing, are studied in this paper.  The first, which we refer to as the ConvNet, is trained (and evaluated) on un-normalized jet-images using the transverse energy for the pixel intensities.  The second, which we refer to as ConvNet-Norm, is trained (and evaluated) on $L^{2}$ normalized jet-images using the energy for the pixel intensities.  Examining the performance of both networks allows us to study the possible effects of the pre-processing.
+Two convolution networks, which differ in their pre-processing, are studied in this paper.  The first, which we refer to as the ConvNet, is trained (and evaluated) on un-normalized jet-images using the transverse energy for the pixel intensities.  The second, which we refer to as ConvNet-Norm, is trained (and evaluated) on $L^{2}$ normalized jet-images using the transverse-energy for the pixel intensities.  Examining the performance of both networks allows us to study the possible effects of the pre-processing.
 
 
 
 % subsubsection architectural_selection (end)
 
-\subsubsection{Implementation and Training} % (fold)
+\subsection{Implementation and Training} % (fold)
 \label{ssub:implementation_and_training}
 
-Event generation and simulation was conducted on the SLAC \texttt{atlint} cluster. All Deep Learning experiments were conducted in Python with the Keras~\cite{Keras} Deep Learning library on the Stanford Institute for Computational and Mathematical Engineering GPU cluster, utilizing NVIDIA C2070 graphics cards. 
+All Deep Learning experiments were conducted in Python with the Keras~\cite{Keras} Deep Learning library, utilizing NVIDIA C2070 graphics cards.
 
-We used 8 million training examples, with an additional 2 million validation samples for tuning the hyper-parameters, and 3 million testing samples. The networks were trained with the Adam~\cite{DBLP:journals/corr/KingmaB14} algorithm (Stochastic Gradient Descent with Nesterov Momentum~\cite{Nesterov:1983wy} was also examined, but did provide performance gains).  The training consisted of 100 epochs, with a 10 epoch patience parameter on the increase in AUC between 0.2 and 0.8 on a validation set.  Batch sizes of 32 were used for the MaxOut network, while batch sizes of 96 were used for the convolution networks.
+We used 8 million training examples, with an additional 2 million validation samples for tuning the hyper-parameters, and 3 million testing samples.  The networks were trained with the Adam~\cite{DBLP:journals/corr/KingmaB14} algorithm (Stochastic Gradient Descent with Nesterov Momentum~\cite{Nesterov:1983wy} was also examined, but did not provide performance gains).  The training consisted of 100 epochs, with a 10 epoch patience parameter on the increase in AUC between 0.2 and 0.8 on a validation set.  Batch sizes of 32 were used for the Maxout network, while batch sizes of 96 were used for the convolution networks.
 
 % subsubsection implementation_and_training (end)
 
