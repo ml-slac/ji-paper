@@ -35,7 +35,8 @@ The differences between images in these small windows tells us about what inform
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.65\textwidth]{figures/augwindow-roc.pdf}
+  %\includegraphics[width=0.65\textwidth]{figures/augwindow-roc.pdf}
+   \includegraphics[width=0.65\textwidth]{figures/ROC_small_window.pdf}
   \caption{ROC curves for $m_\text{jet}\in [79, 81]$ GeV, $p_{T}\in [250, 255]$ GeV, $\tau_{21}\in[0.19, 0.21]$. By construction, $\tau_{21}$ is no better than a random guess in this small window.  The Fisher Linear Discriminant (FLD) is a powerful linear learning technique that is trained in this small window.  The neural network is a convolution neural network trained inclusively (but still within the stated mass and $p_T$ windows) using energy as the pixel intensities and with normalization applied.}
   \label{fig:rocWindow}
 \end{figure}
