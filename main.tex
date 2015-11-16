@@ -84,6 +84,9 @@ This paper is organized as follows:  The details of the simulated data sets and 
 
 \appendix
 
+\clearpage
+\newpage
+
 \section{Image Sparsity}
 \label{sec:sparsity}
 
@@ -97,7 +100,62 @@ Figure~\ref{fig:occupancy} quantifies the sparsity of the jet images by showing 
     \end{center}
 \end{figure}
 
+\clearpage
+\newpage
 
+\section{Joint and Marginal Distributions}
+\label{sec:app:dists}
+
+Figure~\ref{fig:marginal_DNN} shows the marginal distributions of the network outputs for signal and background jets.  The MaxOut network has a wavy feature in the distribution near 0.5 where the likelihood ratio is unity.  In that regime, the network cannot differentiate between signal and background and in this particular case results in a non-smooth distribution at the fixed likelihood ratio value.
+
+The joint distributions of the network with the jet mass, $\tau_{21}$, and the $\Delta R$ between subjets are shown in Fig.~\ref{fig:mass_DNN}, Fig.~\ref{fig:tau21_DNN}, and Fig.~\ref{fig:dr_DNN}, respectively.  The joint distributions between the various combinations of the physics features are shown in Fig.~\ref{fig:mass_tau21} and Fig.~\ref{fig:dr_tau21}.
+
+\begin{figure}[htbp!]
+  \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/convnet.pdf} \includegraphics[width=0.45\textwidth]{figures/maxout.pdf}
+      \caption{ The marginal distributions of the ConvNet (left) and MaxOut (right) network outputs for signal and background jet images.
+      \label{fig:marginal_DNN} }
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp!]
+  \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/mass_convnet_back.pdf} \includegraphics[width=0.45\textwidth]{figures/mass_maxout_back.pdf}
+      \caption{ The joint probability distribution the jet mass and the ConvNet (left) and MaxOut (right) network outputs for the background. 
+      \label{fig:mass_DNN} }
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp!]
+  \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/tau21_convnet_back.pdf} \includegraphics[width=0.45\textwidth]{figures/tau21_maxout_back.pdf}
+      \caption{ The joint probability distribution between $\tau_{21}$ and the ConvNet (left) and MaxOut (right) network outputs for the background. 
+      \label{fig:tau21_DNN} }
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp!]
+  \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/dR_convnet_back.pdf} \includegraphics[width=0.45\textwidth]{figures/dR_maxout_back.pdf}
+      \caption{ The joint probability distribution between the $\Delta R$ between subjets and the ConvNet (left) and MaxOut (right) network outputs for the background. 
+      \label{fig:dr_DNN} }
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp!]
+  \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/mass_dR_back.pdf} \includegraphics[width=0.45\textwidth]{figures/mass_tau21_back.pdf}
+      \caption{ The joint probability distribution between jet mass and the $\Delta R$ between subjets (left) and $\tau_{21}$ (right).  
+      \label{fig:mass_tau21} }
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp!]
+  \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/tau21_dR_back.pdf}
+      \caption{ The joint probability distribution between the $\Delta R$ between subjets and $\tau_{21}$.      \label{fig:dr_tau21} }
+    \end{center}
+\end{figure}
 
 \clearpage
 \newpage
