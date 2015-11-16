@@ -36,47 +36,11 @@ Collimated sprays of particles, called {\it jets}, resulting from the production
 
 The analysis presented here is an extension of the jet-images approach, first introduced in Ref.~\cite{Cogan:2014oua} and then also studied with similar approaches by Ref.~\cite{Almeida:2015jua}, whereby jets are represented as images with the energy depositions of the particles within the jet serving as the pixel intensities.  When first introduced, jet image pre-processing techniques based on the underlying physics symmetries of the jets were combined with a linear Fisher discriminant to perform jet tagging and to study the learned discrimination information.  Here, we make use of modern deep neural networks (DNN) architectures, which have been found to outperform competing algorithms in CV tasks similar to jet tagging with jet images.  While such DNNs are significantly more complex than Fisher discriminants, they also provide the capability to learn rich high-level representations of jet images and to greatly enhance discrimination power.  By developing techniques to access this rich information, we can explore and understand what has been learned by the DNN and subsequently improve our understanding of the physics governing jet substructure.  We also re-examine the jet pre-processing techniques, to specifically analyze the impact of the pre-processing on the physical information contained within the jet.
 
-%\input{sections/dl}
-
 Automatic feature extraction and high-level learned feature representations via deep learning have led to state-of-the-art performance in Computer Vision~\cite{vggnet,maxout:goodfellow,dropout:and:LRN}.  The focus of this work is on robust networks architectures to investigate what information and higher level representations a fully-connected multi-layer network and a convolutional neural network learn about jets.  There will be a focus on connecting the gains in performance with the underlying physical properties of jets through visualization. This paper is organized as follows:  The details of the simulated data sets and the definition of jet-images are described in Section~\ref{sec:simulation}.    The pre-processing techniques, including new insights into the relationship with underlying physics information, is discussed in Section~\ref{sec:preprocess}.  We then introduce the deep neural network architectures that we use in Section~\ref{sec:arch}.  The discrimination performance and the exploration of the information learned by the DNNs is presented in Section~\ref{sec:studies}.
 
 
-%As it relates to our work, we do not investigate extremely large network architectures, rather we focus on  understanding what information and higher level representations a fully-connected multi-layer network and a convolutional neural network learn in the context of High Energy Physics (HEP). We let our knowledge of physics guide our investigations into visualization and comprehension of deep representations for physics. We shed light on the internal-workings of deep learning architectures in the context of object identification in HEP.
-
-%Since the first usage by the current name~\cite{hinton06}, Deep Learning has taken on many forms and seen success in a variety of fields that have traditionally utilized human-engineered features to create classifiers and apply out-of-the-box machine learning algorithms. In particular, the field of Computer Vision has changed drastically. Since the 2012 ILSVRC winning entry by Alex Krizhevsky and the University of Toronto group~\cite{alexnet}, Deep Learning -- in particular Convolutional Neural Networks -- have taken over vision-based machine learning, consistently showing human and recently super-human levels performance on key baseline datasets. The increasingly widespread availability of GPUs and associated numerical frameworks has made the time intensive estimation procedures associated with deep neural networks more feasible, and allowed the size of models for image tasks to grow exponentially. 
-%For example, the Google team's contribution to ILSVRC 2014 -- the GoogLeNet~\cite{googlenet} -- consisted of 22 layers of convolutional black boxes called ``Inception Units'', and set the benchmarks both for accuracy and speed of a model on such a large scale. 
-
-%As it relates to our work, we investigate several deep network architectures and focus on  understanding what information and higher level representations a fully connected and a convolutional neural network will learn in the context of High Energy Physics. We let our knowledge of physics guide our investigations into visualization, understanding, and demystification of deep representations for physics. We shed light inside the black-box of deep learning in the context of object identification in boosted jet physics.
-
-%This paper is organized as follows:  The details of the simulated data sets and the definition of jet-images are described in Section~\ref{sec:simulation}.    The pre-processing techniques, including new insights into the relationship with underlying physics information, is discussed in Section~\ref{sec:preprocess}.  We then introduce the deep neural network architectures that we use in Section~\ref{sec:arch}.  The discrimination performance and the exploration of the information learned by the DNNs is presented in Section~\ref{sec:studies}.
-
-%With the increased energy of the LHC\cite{LHC}, and the prospects for future higher energy colliders on the horizon, the possibility of finding new high mass particles is of paramount importance.  However, when such TeV scale particles decay to Standard Model (SM) particles, such as top $W^{\pm}$, $Z$, and Higgs bosons,  or top quarks,  they impart large amounts energy, or boost to the SM particles. 
-
-%The fundamental challenge at the energy frontier of particle physics is identifying subtle signals beneath enormous backgrounds. A monumental triumph was the recent discovery of the Higgs boson - a particle that is produced one in every $10^{10}$ collisions at the Large Hadron Collider (LHC). Machine learning techniques have played a key role in all aspects of this search.  At the most basic level, charged particle tracks are reconstructed using pattern recognition techniques, higher level objects, blah blah. 
-%
-%Techniques built on physically motivated features have succesfully probed the highest energies and smallest scales ever achieved in terestrial experiments.  At the same time, there have been significant gains 
-%
-%The high particle multiplicity final states of hadron collider events 
-%Something like ``we have figured out many cool variables" "machine learning can find variables"  "lets use one to inform/improve the other!''
-%
-%Places where ML is used in HEP: TMVA~\cite{Hocker:2007ht}
-%
-%b-tagging: MV1 (ATLAS) and CSV (CMS)
-%tau-tagging
-%NP searches
-%rare SM measurements (e.g. single top)
-%Higgs
-%
-%Jet Images paper: http://arxiv.org/abs/1407.5675
-%
-%
-%Let's keep a running document with all pub-ready plots in here.
-
 \input{sections/simulation}
 
-%\input{sections/fom}
-
-%\input{sections/dl}
 \input{sections/architecture}
 
 \input{sections/studies}
@@ -163,11 +127,6 @@ The joint distributions of the network with the jet mass, $\tau_{21}$, and the $
 \clearpage
 \newpage
 
-% \nocite{*}
  \bibliography{myrefs}
-
-
-
-
 
 \end{document}
