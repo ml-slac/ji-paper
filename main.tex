@@ -82,6 +82,21 @@ This paper is organized as follows:  The details of the simulated data sets and 
 
 \input{sections/acknowledgements}
 
+\appendix
+
+\section{Image Sparsity}
+\label{sec:sparsity}
+
+Figure~\ref{fig:occupancy} quantifies the sparsity of the jet images by showing the distribution of the pixel occupancy: the fraction of pixels that have a non-zero entry.  Also plotted is the fraction of pixels that have at least 1\% of the intensity of the scalar sum of the pixel intensities from all pixels.  In general, the background has a more diffuse radiation pattern and thus the corresponding jet images have a higher average occupancy.
+
+\begin{figure}[htbp!]
+  \begin{center}
+        \includegraphics[width=0.5\textwidth]{figures/occ.pdf}
+      \caption{ The distribution of the fraction of pixels (occupancy) that have a nonzero entry (blue) or at least 1\% of the scalar sum of the pixel intensities from all pixels (red).
+      \label{fig:occupancy} }
+    \end{center}
+\end{figure}
+
 
 
 \clearpage
